@@ -3,7 +3,7 @@
 
 #include <allegro.h>
 #include <fstream>
-using namespace std;
+#include "heroi.h"
 
 #define TAMANHO_TILE 32
 
@@ -25,6 +25,7 @@ public:
     int numLinhas, numColunas;
     int posInicialLin, posInicialCol;
     int numPontos;
+    CHeroi *heroi;
 
     CCenario();
     ~CCenario();
@@ -33,6 +34,11 @@ public:
     void CarregaBitmaps(char*);
     BITMAP* DrawAll();
 
+    bool IsValid(int, int);
 
+    void MoveUp();
+    void MoveRight();
+    void MoveDown();
+    void MoveLeft();
 };
 #endif

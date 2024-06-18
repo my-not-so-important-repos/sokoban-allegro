@@ -48,17 +48,19 @@ Make sure you have first read \ref intro "Introdução sobre o programa".
 */
 int main(int argc, char *argv[])
 {
-	// GFX_AUTODETECT_FULLSCREEN
+	//GFX_AUTODETECT_FULLSCREEN
 	int vid_m = GFX_AUTODETECT_WINDOWED;	// screen desired graphic mode
 	int game_color_depth = 32;				// desired screen color depth
 	int vid_w = 640;						// desired video resolution
 	int vid_h = 480;
 
 	/* check command line parameters */
+	/*
 	for (int i = 1; i < argc; i++)
 	{
-		//if (stricmp(argv[i], "-wn") == 0) vid_m = GFX_AUTODETECT_WINDOWED;
+		if (stricmp(argv[i], "-wn") == 0) vid_m = GFX_AUTODETECT_WINDOWED;
 	}
+	*/
 
 	allegro_init();
 	set_uformat(U_ASCII);	// Permite usar acentos da língua portuguesa.
@@ -70,8 +72,10 @@ int main(int argc, char *argv[])
 	if (install_keyboard())
 		raise_error("main() : can't install keyboard driver");
 
+/*
 	if (install_mouse() < 0)
 		raise_error("main() : can't install mouse driver");
+*/
 
 	/* ---------------------
 	here you can init other hardware, such as sound, joystick, etc
@@ -108,12 +112,12 @@ int main(int argc, char *argv[])
 		while(!keypressed());
 		while(keypressed())
 			tecla = readkey();
-		if (tecla >> 8 == KEY_ENTER)
+		if (tecla >> 8 == KEY_ENTER || tecla >> 8 == KEY_ENTER_PAD)
 		{
 			switch(menuPrincipal->focus)
 			{
 			case 0:
-				gkernel_init(); // start the game kernel and main game loop (located at gkernel.cpp)
+				gkernel_init(); // start the game kernel and main game loop (located at kernel.cpp)
 				menuPrincipal->Draw();
 				break;
 			case 1:
