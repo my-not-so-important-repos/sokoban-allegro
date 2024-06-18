@@ -2,23 +2,34 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Generic Allegro Template" />
+		<Option title="sokoban" />
 		<Option pch_mode="0" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="default">
-				<Option output="Generic Allegro Template.exe" prefix_auto="0" extension_auto="0" />
+			<Target title="optimized">
+				<Option output="sokoban" prefix_auto="0" extension_auto="1" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectResourceIncludeDirsRelation="0" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+			</Target>
+			<Target title="debug">
+				<Option output="sokoban" prefix_auto="0" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectResourceIncludeDirsRelation="0" />
+				<Compiler>
+					<Add option="-Weffc++" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="default;" />
+			<Add alias="All" targets="optimized;" />
 		</VirtualTargets>
-		<Compiler>
-			<Add option="-O3" />
-		</Compiler>
 		<Linker>
 			<Add library="alleg" />
 		</Linker>
@@ -26,6 +37,8 @@
 		<Unit filename="cenario.h" />
 		<Unit filename="error.cpp" />
 		<Unit filename="error.h" />
+		<Unit filename="heroi.cpp" />
+		<Unit filename="heroi.h" />
 		<Unit filename="kernel.cpp" />
 		<Unit filename="kernel.h" />
 		<Unit filename="main.cpp" />

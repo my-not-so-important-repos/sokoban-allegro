@@ -14,6 +14,7 @@ int				game_over = FALSE;
 
 /* Counter for the main timer */
 volatile int	speed_counter = 0;
+volatile int    gClock = 0;
 
 /* this 2 counters are for count the fps */
 volatile int	frame_count, fps;
@@ -23,8 +24,8 @@ volatile int	frame_count, fps;
 void increment_speed_counter()
 {
 	speed_counter++;
+	gClock++;
 }
-
 END_OF_FUNCTION(increment_speed_counter);
 
 
@@ -34,7 +35,6 @@ void fps_proc(void)
 	fps = frame_count;
 	frame_count = 0;
 }
-
 END_OF_FUNCTION(fps_proc);
 
 
@@ -63,6 +63,7 @@ void gkernel_init()
 	/* here start all the variables and all stuff */
 	CCenario *cenario = new CCenario;
 	cenario->Init("level1.txt", "res/tileset.bmp");
+	cenario->heroi->hClock = &gClock;
 
 	game_over = FALSE;
 	frame_count = fps = 0;
@@ -97,6 +98,14 @@ int gkernel_update_logic(CCenario* cenario)
 {
     if (key[KEY_ESC])
         return UL_PLAYER_EXIT;
+    if (key[KEY_RIGHT])
+        cenario->MoveRight();
+    if (key[KEY_LEFT])
+        cenario->MoveLeft();
+    if (key[KEY_UP])
+        cenario->MoveUp();
+    if (key[KEY_DOWN])
+        cenario->MoveDown();
     return UL_CONTINUE;
 }
 
@@ -108,7 +117,10 @@ void gkernel_update_screen(CCenario* cenario)
 {
     static BITMAP *buffer = create_bitmap(SCREEN_W, SCREEN_H);
     BITMAP *imagemCenario = cenario->DrawAll();
-    blit(imagemCenario, buffer, 0, 0, 0, 0, imagemCenario->w, imagemCenario->h);
-	textprintf_ex(buffer, font, 0, 0, makecol(255, 255, 255), 0, "Hit <ESC> to quit - %5d fps", fps);
+    clear_to_color(buffer, makecol(0, 0, 0));
+    blit(imagemCenario, buffer, 0, 0, 0, 32, imagemCenario->w, imagemCenario->h);
+	textprintf_ex(buffer, font, 0, 0, makecol(255, 255, 255), -1, "Hit <ESC> to quit - %5d fps", fps);
+	textprintf_ex(buffer, font, 0, 8, makecol(255, 255, 255), -1, "speed_counter = %5d", speed_counter);
+	textprintf_ex(buffer, font, 0, 16, makecol(255, 255, 255), -1, "kernel clock = %5d", gClock);
 	blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 }
