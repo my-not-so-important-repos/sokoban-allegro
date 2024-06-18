@@ -4,8 +4,8 @@
 #include <allegro.h>
 
 #define NUM_DIRECOES        4
-#define FRAMES_POR_DIRECAO  3
-#define FRAME_WIDTH        24
+#define FRAMES_POR_DIRECAO  2
+#define FRAME_WIDTH        32
 #define FRAME_HEIGHT       32
 
 #define DIRECAO_CIMA       0

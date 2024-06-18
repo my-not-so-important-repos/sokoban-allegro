@@ -25,8 +25,11 @@ void CHeroi::CarregarBitmaps(char *arquivoImagem)
 
 BITMAP* CHeroi::getImagem()
 {
+    int posicaoAtual = (*hClock / 15) % 2;
+    /*
     int posicaoAtual = (*hClock / 15) % 4;
     if (posicaoAtual == 3)
         posicaoAtual = 1;
+    */
     return imagem[direcao][posicaoAtual];
 }
