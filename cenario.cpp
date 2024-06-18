@@ -4,6 +4,8 @@
 
 CCenario::CCenario()
 {
+    heroi = new CHeroi;
+    heroi->CarregarBitmaps("res/personagem.bmp");
     for (int i = 0; i < NUM_IMAGENS_TILE; i++)
         tileset[i] = create_bitmap(TAMANHO_TILE, TAMANHO_TILE);
 }
@@ -40,8 +42,10 @@ void CCenario::CarregaMatriz(char *nomeArquivo)
     for (int linha = 0; linha < numLinhas; linha++)
         for (int coluna = 0; coluna < numColunas; coluna++)
             arquivo >> matriz[linha][coluna];
-
     arquivo.close();
+
+    heroi->posCol = posInicialCol;
+    heroi->posLin = posInicialLin;
 }
 
 
@@ -57,26 +61,64 @@ void CCenario::CarregaBitmaps(char *nomeArquivo)
 
 BITMAP* CCenario::DrawAll()
 {
-    clear_to_color(buffer, makecol(255, 255, 255));
+    clear_to_color(buffer, makecol(255, 255, 255)); // acho que não é necessário
     for (int linha = 0; linha < numLinhas; linha++)
     	for (int coluna = 0; coluna < numColunas; coluna++)
-            switch(matriz[linha][coluna])
-            {
-            case TILE_CHAO:
-                draw_sprite(buffer, tileset[TILE_CHAO], coluna * 32, linha * 32);
-                break;
-
-            case TILE_PAREDE:
+    	{
+            if (matriz[linha][coluna] & 1)
                 draw_sprite(buffer, tileset[TILE_PAREDE], coluna * 32, linha * 32);
-                break;
-
-            case TILE_PONTO:
+            else
+                draw_sprite(buffer, tileset[TILE_CHAO], coluna * 32, linha * 32);
+            if (matriz[linha][coluna] & 2)
                 draw_sprite(buffer, tileset[TILE_PONTO], coluna * 32, linha * 32);
-                break;
-
-            case TILE_CAIXA:
+            if (matriz[linha][coluna] & 4)
                 draw_sprite(buffer, tileset[TILE_CAIXA], coluna * 32, linha * 32);
-                break;
-            }
+    	}
+    draw_sprite(buffer, heroi->getImagem(), heroi->posCol * 32, heroi->posLin * 32);
     return buffer;
+}
+
+
+
+bool CCenario::IsValid(int linha, int coluna)
+{
+    if (linha >= 0 && linha < numLinhas && coluna >= 0 && coluna < numColunas)
+        return true;
+    return false;
+}
+
+
+
+void CCenario::MoveUp()
+{
+    if (IsValid(heroi->posLin - 1, heroi->posCol))
+        if (!(matriz[heroi->posLin - 1][heroi->posCol] & 1))
+            heroi->posLin--;
+}
+
+
+
+void CCenario::MoveRight()
+{
+    if (IsValid(heroi->posLin, heroi->posCol + 1))
+        if (!(matriz[heroi->posLin][heroi->posCol + 1] & 1))
+            heroi->posCol++;
+}
+
+
+
+void CCenario::MoveDown()
+{
+    if (IsValid(heroi->posLin + 1, heroi->posCol))
+        if (!(matriz[heroi->posLin + 1][heroi->posCol] & 1))
+            heroi->posLin++;
+}
+
+
+
+void CCenario::MoveLeft()
+{
+    if (IsValid(heroi->posLin, heroi->posCol - 1))
+        if (!(matriz[heroi->posLin][heroi->posCol - 1] & 1))
+            heroi->posCol--;
 }
