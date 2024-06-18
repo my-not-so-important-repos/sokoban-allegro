@@ -91,6 +91,7 @@ bool CCenario::IsValid(int linha, int coluna)
 
 void CCenario::MoveUp()
 {
+    heroi->direcao = DIRECAO_CIMA;
     if (IsValid(heroi->posLin - 1, heroi->posCol))
         if (!(matriz[heroi->posLin - 1][heroi->posCol] & 1))
             heroi->posLin--;
@@ -100,6 +101,7 @@ void CCenario::MoveUp()
 
 void CCenario::MoveRight()
 {
+    heroi->direcao = DIRECAO_DIREITA;
     if (IsValid(heroi->posLin, heroi->posCol + 1))
         if (!(matriz[heroi->posLin][heroi->posCol + 1] & 1))
             heroi->posCol++;
@@ -109,6 +111,7 @@ void CCenario::MoveRight()
 
 void CCenario::MoveDown()
 {
+    heroi->direcao = DIRECAO_BAIXO;
     if (IsValid(heroi->posLin + 1, heroi->posCol))
         if (!(matriz[heroi->posLin + 1][heroi->posCol] & 1))
             heroi->posLin++;
@@ -118,6 +121,7 @@ void CCenario::MoveDown()
 
 void CCenario::MoveLeft()
 {
+    heroi->direcao = DIRECAO_ESQUERDA;
     if (IsValid(heroi->posLin, heroi->posCol - 1))
         if (!(matriz[heroi->posLin][heroi->posCol - 1] & 1))
             heroi->posCol--;
